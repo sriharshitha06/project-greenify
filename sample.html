@@ -1,0 +1,352 @@
+Here's an example code using HTML, CSS, and JavaScript to store and display carbon footprint values as a pie chart:
+
+index.html
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Carbon Footprint Tracker</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<h1>Carbon Footprint Tracker</h1>
+	<div id="carbon-footprint">
+		<canvas id="pie-chart"></canvas>
+	</div>
+	<div id="data-input">
+		<label for="transportation">Transportation:</label>
+		<input type="number" id="transportation" value="0">
+		<label for="energy">Energy:</label>
+		<input type="number" id="energy" value="0">
+		<label for="food">Food:</label>
+		<input type="number" id="food" value="0">
+		<button id="update-btn">Update</button>
+	</div>
+	
+	<script src="(link unavailable)"></script>
+	<script src="script.js"></script>
+</body>
+</html>
+
+
+style.css
+
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f0f0f0;
+}
+
+#carbon-footprint {
+	width: 500px;
+	margin: 40px auto;
+}
+
+#pie-chart {
+	width: 100%;
+	height: 300px;
+}
+
+#data-input {
+	margin-top: 20px;
+}
+
+label {
+	display: block;
+	margin-bottom: 10px;
+}
+
+input[type="number"] {
+	width: 100%;
+	height: 30px;
+	margin-bottom: 20px;
+	padding: 10px;
+	border: 1px solid #ccc;
+}
+
+button {
+	background-color: #333;
+	color: #fff;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+
+script.js
+
+// Initialize data
+let carbonFootprint = {
+	transportation: 0,
+	energy: 0,
+	food: 0
+};
+
+// Get input elements
+const transportationInput = document.getElementById("transportation");
+const energyInput = document.getElementById("energy");
+const foodInput = document.getElementById("food");
+
+// Update button event listener
+document.getElementById("update-btn").addEventListener("click", () => {
+	carbonFootprint.transportation = parseInt(transportationInput.value);
+	carbonFootprint.energy = parseInt(energyInput.value);
+	carbonFootprint.food = parseInt(foodInput.value);
+	updateChart();
+});
+
+// Function to update chart
+function updateChart() {
+	const ctx = document.getElementById("pie-chart").getContext("2d");
+	const chart = new Chart(ctx, {
+		type: "pie",
+		data: {
+			labels: ["Transportation", "Energy", "Food"],
+			datasets: [{
+				label: "Carbon Footprint",
+				data: [carbonFootprint.transportation, carbonFootprint.energy, carbonFootprint.food],
+				backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+				borderColor: "#fff",
+				borderWidth: 1
+			}]
+		},
+		options: {
+			legend: {
+				display: true,
+				position: "bottom"
+			}
+		}
+	});
+}
+
+// Initialize chart
+updateChart();
+
+
+This code allows users to input their carbon footprint values for transportation, energy, and food. The values are then displayed as a pie chart using Chart.js.
+
+Example Use Case:
+
+1. Open the HTML file in a web browser.
+2. Enter carbon footprint values for transportation, energy, and food.
+3. Click the "Update" button.
+4. The pie chart will update to reflect the new values.
+
+Note: This code uses placeholder values for demonstration purposes. You should replace these values with actual carbon footprint data.
+Your code calculates the carbon footprint based on electricity, LPG, petrol, and diesel consumption and updates a pie chart with the result.
+
+However, there are a few issues:
+
+1. The tonnesCF variable is not accessible within the updateChart function. You should declare it globally or pass it as an argument.
+
+2. The pie chart labels should represent the different energy sources, not an empty string.
+
+3. The pie chart data should include the carbon footprint values for each energy source, not just the total.
+
+Here's an updated version of your code:
+
+
+let tonnesCF;
+
+document.getElementById('calculate').addEventListener('click', function() {
+  const electricity = document.getElementById('electricity').valueAsNumber;
+  const lpg = document.getElementById('lpg').valueAsNumber;
+  const petrol = document.getElementById('petrol').valueAsNumber;
+  const diesel = document.getElementById('diesel').valueAsNumber;
+
+  const electricityCF = electricity * 0.62; // kg CO2e/month
+  const lpgCF = lpg * 24.4; // kg CO2e/month
+  const petrolCF = petrol * 2.35; // kg CO2e/month
+  const dieselCF = diesel * 2.64; // kg CO2e/month
+
+  const totalCF = electricityCF + lpgCF + petrolCF + dieselCF; // kg CO2e/month
+  tonnesCF = totalCF / 1000 / 12; // tonnes CO2e/year
+
+  document.getElementById('result').innerText = `Your annual carbon footprint is approximately ${tonnesCF.toFixed(2)} tonnes CO2e/year.`;
+
+  updateChart(electricityCF / 1000 / 12, lpgCF / 1000 / 12, petrolCF / 1000 / 12, dieselCF / 1000 / 12);
+});
+
+// Function to update chart
+function updateChart(electricity, lpg, petrol, diesel) {
+  const ctx = document.getElementById("pie-chart").getContext("2d");
+  const chart = new Chart(ctx, {
+    type: "pie",
+    data: {
+      labels: ["Electricity", "LPG", "Petrol", "Diesel"],
+      datasets: [{
+        label: "Carbon Footprint",
+        data: [electricity, lpg, petrol, diesel],
+        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
+        borderColor: "#fff",
+        borderWidth: 1
+      }]
+    },
+    options: {
+      legend: {
+        display: true,
+        position: "bottom"
+      }
+    }
+  });
+}
+
+// Initialize chart
+updateChart(0, 0, 0, 0);
+
+
+In this updated code:
+
+- I've declared tonnesCF globally.
+- I've updated the pie chart labels to represent the different energy sources.
+- I've updated the pie chart data to include the carbon footprint values for each energy source.
+- I've passed the carbon footprint values for each energy source to the updateChart function.
+- I've divided the carbon footprint values by 12 to convert from monthly to yearly values.
+
+To display the result and pie chart on another page, you'll need to:
+
+1. Create a new HTML file (e.g., result.html) for the result and pie chart.
+2. Modify the JavaScript code to redirect to the new page and pass the calculated values.
+3. Use URL parameters or local storage to store and retrieve the calculated values.
+
+Here's an updated code snippet:
+
+calculator.html (original file)
+
+<!-- ... existing code ... -->
+
+document.getElementById('calculate').addEventListener('click', function(event) {
+  event.preventDefault();
+  // ... existing code ...
+
+  const totalCF = electricityCF + lpgCF + petrolCF + dieselCF + cngCF;
+  const inc = totalCF - 122.7;
+  const cf = ((totalCF - 122.7) / 122.7) * 100;
+  const saver = 100 - cf;
+
+  // Redirect to result page with calculated values
+  const url = `result.html?totalCF=${totalCF}&inc=${inc}&cf=${cf}&saver=${saver}`;
+  window.location.href = url;
+});
+
+
+result.html (new file)
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Carbon Footprint Result</title>
+  <script src="(link unavailable)"></script>
+</head>
+<body>
+  <h1>Carbon Footprint Result</h1>
+  <p id="result"></p>
+  <canvas id="pie-chart"></canvas>
+
+  <script>
+    // Get URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const totalCF = parseFloat(urlParams.get('totalCF'));
+    const inc = parseFloat(urlParams.get('inc'));
+    const cf = parseFloat(urlParams.get('cf'));
+    const saver = parseFloat(urlParams.get('saver'));
+
+    // Display result
+    document.getElementById('result').innerText = `Your monthly carbon footprint is approximately ${totalCF.toFixed(2)} kg CO2e/month. You emit approximately ${inc.toFixed(2)}kg CO2e more than the average per capita Carbon footprint!!! `;
+
+    // Create pie chart
+    const ctx = document.getElementById('pie-chart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Carbon Footprint', 'Saver'],
+        datasets: [{
+          label: [],
+          data: [cf, saver],
+          backgroundColor: ["#fd0312", "#2dfd03"],
+          borderColor: ['rgba(255, 0, 0, 1)'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        legend: {
+          display: true,
+          position: 'bottom'
+        }
+      }
+    });
+  </script>
+</body>
+</html>
+
+
+Now, when the user clicks the "Calculate" button, they will be redirected to the result.html page, which will display the calculated carbon footprint and pie chart.
+
+Note: Make sure to update the file paths and URLs according to your project structure.
+
+Here's the modified code with a smaller pie chart:
+
+
+// Get URL parameters
+const urlParams = new URLSearchParams(window.location.search);
+const totalCF = parseFloat(urlParams.get('totalCF'));
+const inc = parseFloat(urlParams.get('inc'));
+const cf = parseFloat(urlParams.get('cf'));
+const saver = parseFloat(urlParams.get('saver'));
+
+// Display result
+document.getElementById('result').innerText = `Your monthly carbon footprint is approximately ${totalCF.toFixed(2)} kg CO2e/month. You emit approximately ${inc.toFixed(2)}kg CO2e more than the average per capita Carbon footprint!!! `;
+
+// Create smaller pie chart
+const ctx = document.getElementById('pie-chart').getContext('2d');
+const chart = new Chart(ctx, {
+  type: 'pie',
+  data: {
+    labels: ['Carbon Footprint', 'Saver'],
+    datasets: [{
+      label: [],
+      data: [cf, saver],
+      backgroundColor: ["#fd0312", "#2dfd03"],
+      borderColor: ['rgba(255, 0, 0, 1)'],
+      borderWidth: 1
+    }]
+  },
+  options: {
+    maintainAspectRatio: false,
+    responsive: false,
+    legend: {
+      display: true,
+      position: 'bottom'
+    },
+    layout: {
+      padding: {
+        top: 20,
+        right: 20,
+        bottom: 20,
+        left: 20
+      }
+    },
+    width: 300,
+    height: 150
+  }
+});
+
+
+HTML:
+
+
+<canvas id="pie-chart" width="300" height="150"></canvas>
+
+
+CSS:
+
+
+#pie-chart {
+  width: 300px !important; 
+  height: 150px !important;
+}
+
+
+By setting maintainAspectRatio to false, responsive to false, and adjusting width and height in both the Chart.js options and HTML canvas element, we've reduced the pie chart's size.
+
+Feel free to adjust these values for your desired size.

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greenify - Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Load Chart.js for visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="LOGO.jpg" alt="Logo" class="brand-img" onerror="this.src='https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=100&auto=format&fit=crop&q=60'">
+                <span class="brand-name">GREENIFY</span>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item active" data-tab="dashboard">
+                    <a href="#"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+                </li>
+                <li class="nav-item" data-tab="tracker">
+                    <a href="#"><i class="fas fa-calculator"></i><span>Carbon Tracker</span></a>
+                </li>
+                <li class="nav-item" data-tab="verify">
+                    <a href="#"><i class="fas fa-camera"></i><span>Eco-Verify (CV)</span></a>
+                </li>
+                <li class="nav-item" data-tab="advisor">
+                    <a href="#"><i class="fas fa-brain"></i><span>AI Advisor (RAG)</span></a>
+                </li>
+                <li class="nav-item" data-tab="leaderboard">
+                    <a href="#"><i class="fas fa-trophy"></i><span>Leaderboard</span></a>
+                </li>
+                <li class="nav-item" data-tab="badges">
+                    <a href="#"><i class="fas fa-award"></i><span>My Badges</span></a>
+                </li>
+            </ul>
+
+            <div class="user-profile-badge">
+                <div class="user-avatar">U</div>
+                <div class="user-details">
+                    <span class="user-name">Loading...</span>
+                    <span class="user-points">0 Points</span>
+                </div>
+                <a href="#" id="logout-btn" style="margin-left: auto; color: var(--text-secondary);" title="Log Out">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Workspace Panel -->
+        <main class="main-content">
+            
+            <!-- SECTION 1: DASHBOARD -->
+            <section id="dashboard" class="tab-content active">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">My Eco Dashboard</h1>
+                        <p class="page-subtitle">Track your emission trends and green contribution</p>
+                    </div>
+                    <button class="btn btn-secondary" id="btn-download-report">
+                        <i class="fas fa-file-download"></i>
+                        <span>Download CSV Report</span>
+                    </button>
+                </div>
+
+                <!-- Metrics Cards -->
+                <div class="stats-grid">
+                    <div class="glass-panel stat-card">
+                        <div class="stat-header">
+                            <span>Avg Daily Emission</span>
+                            <i class="fas fa-cloud-sun stat-icon"></i>
+                        </div>
+                        <div class="stat-value" id="stat-avg-footprint">0.0 kg</div>
+                        <div class="stat-footer">Daily average footprint</div>
+                    </div>
+                    
+                    <div class="glass-panel stat-card">
+                        <div class="stat-header">
+                            <span>Carbon Saved</span>
+                            <i class="fas fa-leaf stat-icon"></i>
+                        </div>
+                        <div class="stat-value text-primary" id="stat-carbon-saved">0.0 kg</div>
+                        <div class="stat-footer">Compared to baseline avg</div>
+                    </div>
+
+                    <div class="glass-panel stat-card">
+                        <div class="stat-header">
+                            <span>Activities Logged</span>
+                            <i class="fas fa-history stat-icon"></i>
+                        </div>
+                        <div class="stat-value" id="stat-logs-count">0</div>
+                        <div class="stat-footer">Total daily entries logged</div>
+                    </div>
+                </div>
+
+                <!-- Charts Display wrapper -->
+                <div id="no-data-alert" class="glass-panel" style="padding: 40px; text-align: center; color: var(--text-secondary);">
+                    <i class="fas fa-calculator" style="font-size: 40px; margin-bottom: 15px; color: var(--primary);"></i>
+                    <p>No carbon log data found yet. Head to the <strong>Carbon Tracker</strong> tab to log your daily activities and view charts!</p>
+                </div>
+
+                <div class="charts-grid" id="charts-wrapper" style="display: none;">
+                    <div class="glass-panel chart-card">
+                        <div class="chart-title">
+                            <span>Emission Source Breakdown</span>
+                            <span style="font-size: 12px; color: var(--text-muted);">Daily average kg CO2e</span>
+                        </div>
+                        <div style="position: relative; height: 260px;">
+                            <canvas id="doughnut-chart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-panel chart-card">
+                        <div class="chart-title">
+                            <span>Footprint Trend</span>
+                            <span style="font-size: 12px; color: var(--text-muted);">Last 10 logged entries</span>
+                        </div>
+                        <div style="position: relative; height: 260px;">
+                            <canvas id="line-trend-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: CARBON TRACKER -->
+            <section id="tracker" class="tab-content">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Daily Carbon Tracker</h1>
+                        <p class="page-subtitle">Input your daily activities to predict footprint using Machine Learning</p>
+                    </div>
+                </div>
+
+                <div class="tracker-layout">
+                    <!-- Calculator inputs -->
+                    <div class="glass-panel calculator-panel">
+                        <div id="tracker-success-alert" class="alert-message alert-success"></div>
+                        
+                        <form id="carbon-calculator-form">
+                            <div class="calculator-section">
+                                <h3 class="section-title">Date & Fuel Consumed</h3>
+                                <div class="input-grid">
+                                    <div class="form-group">
+                                        <label class="form-label" for="calc-date">Logging Date</label>
+                                        <input type="date" id="calc-date" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="calc-electricity">Electricity (kWh/day)</label>
+                                        <input type="number" id="calc-electricity" class="form-control" placeholder="e.g. 10" min="0" step="any" required value="8">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="calc-lpg">LPG Cylinders (fraction used)</label>
+                                        <input type="number" id="calc-lpg" class="form-control" placeholder="e.g. 0.05" min="0" max="1" step="any" value="0.0">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="calc-petrol">Petrol (liters/day)</label>
+                                        <input type="number" id="calc-petrol" class="form-control" placeholder="e.g. 2" min="0" step="any" value="0.0">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="calculator-section">
+                                <h3 class="section-title">Alternative Transit & Waste</h3>
+                                <div class="input-grid">
+                                    <div class="form-group">
+                                        <label class="form-label" for="calc-diesel">Diesel (liters/day)</label>
+                                        <input type="number" id="calc-diesel" class="form-control" placeholder="e.g. 0" min="0" step="any" value="0.0">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="calc-cng">CNG (kg/day)</label>
+                                        <input type="number" id="calc-cng" class="form-control" placeholder="e.g. 0" min="0" step="any" value="0.0">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="calc-transit">Public Transport (km)</label>
+                                        <input type="number" id="calc-transit" class="form-control" placeholder="e.g. 12" min="0" step="any" value="0.0">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="calc-cycling">Cycling/Walking (km)</label>
+                                        <input type="number" id="calc-cycling" class="form-control" placeholder="e.g. 3" min="0" step="any" value="0.0">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="calculator-section">
+                                <h3 class="section-title">Diet & Recycling</h3>
+                                <div class="input-grid">
+                                    <div class="form-group">
+                                        <label class="form-label" for="calc-diet">Dietary Pattern</label>
+                                        <select id="calc-diet" class="form-control">
+                                            <option value="vegan">Vegan (Low Impact)</option>
+                                            <option value="vegetarian" selected>Vegetarian (Medium Impact)</option>
+                                            <option value="meat_heavy">Meat Heavy (High Impact)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="calc-waste">Waste Recycled (%)</label>
+                                        <input type="number" id="calc-waste" class="form-control" placeholder="e.g. 50" min="0" max="100" value="0">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <span>Commit Activity Log</span>
+                                <i class="fas fa-save btn-icon-adjust"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Predictions Panel -->
+                    <div>
+                        <div class="glass-panel result-card" style="margin-bottom: 25px;">
+                            <h3 style="color: var(--text-secondary); text-transform: uppercase; font-size: 13px; font-weight: 600; letter-spacing: 0.05em;">ML Realtime Prediction</h3>
+                            
+                            <div id="anomaly-calc-warning" class="alert-message alert-error" style="width: 100%; margin: 15px 0 0 0; padding: 8px;">
+                                ⚠️ Anomaly detected! This input appears anomalous or physically impossible.
+                            </div>
+
+                            <div class="result-circle">
+                                <span class="result-number" id="realtime-calc-val">5.4</span>
+                                <span class="result-unit">kg CO2e</span>
+                            </div>
+                            
+                            <div style="margin-top: 5px;">
+                                <span class="result-badge badge-low" id="realtime-calc-badge" style="display: none;">Low</span>
+                            </div>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-top: 15px; padding: 0 10px;">
+                                Real-time numerical calculations are estimated using your trained <strong>Random Forest Regressor</strong> model.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Logs Table -->
+                <div class="glass-panel" style="margin-top: 35px; padding: 30px;">
+                    <h3 class="section-title">Past Activity History</h3>
+                    <div style="overflow-x: auto;">
+                        <table class="leaderboard-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Electricity</th>
+                                    <th>Fuels</th>
+                                    <th>Diet</th>
+                                    <th>Footprint</th>
+                                    <th>Footprint Class</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tracker-history-table">
+                                <!-- Loaded via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: ECO-VERIFY (CV) -->
+            <section id="verify" class="tab-content">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">OpenCV Activity Verification</h1>
+                        <p class="page-subtitle">Upload pictures of eco-friendly actions to verify using Computer Vision and earn points</p>
+                    </div>
+                </div>
+
+                <div class="verify-layout">
+                    <!-- Upload Box -->
+                    <div class="glass-panel upload-panel">
+                        <form id="verify-upload-form">
+                            <div class="form-group">
+                                <label class="form-label" for="verify-activity-type">Action Category</label>
+                                <select id="verify-activity-type" class="form-control">
+                                    <option value="cycling">Cycling / Walking (Detect bicycle)</option>
+                                    <option value="reusable_product">Reusable Products (Detect bottle/cup)</option>
+                                    <option value="public_transport">Public Transport (Detect bus/train)</option>
+                                    <option value="tree_planting">Tree Planting (Detect plant/green foliage)</option>
+                                </select>
+                            </div>
+
+                            <div class="dropzone" id="verify-dropzone">
+                                <i class="fas fa-cloud-upload-alt dropzone-icon"></i>
+                                <div class="dropzone-text">Drag & drop photo here or <span class="dropzone-label">browse file</span></div>
+                                <div style="font-size:12px;color:var(--text-muted);margin-top:5px;">Supports JPG, PNG, WEBP</div>
+                                <input type="file" id="verify-file-input" accept="image/*">
+                                <img id="verify-preview-img" class="preview-image" alt="preview">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <span>Upload and Run OpenCV Verification</span>
+                                <i class="fas fa-cog btn-icon-adjust"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Verification Report Output -->
+                    <div>
+                        <div id="verify-spinner" class="glass-panel" style="display: none; padding: 80px; text-align: center;">
+                            <div class="spinner"></div>
+                            <p style="margin-top: 15px; color: var(--text-secondary);">Analyzing features via OpenCV DNN Object Detection...</p>
+                        </div>
+
+                        <div id="verify-output-card" class="glass-panel" style="display: none; padding: 30px;">
+                            <h3 class="section-title">OpenCV Verification Report</h3>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                <div>
+                                    <span style="font-size:12px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;display:block;">Verification Result</span>
+                                    <span id="verify-result-status" class="verify-status verified">Verified</span>
+                                </div>
+                                <div style="text-align: right;">
+                                    <span style="font-size:12px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;display:block;">Match Confidence</span>
+                                    <strong id="verify-result-confidence" style="font-size: 18px;">92%</strong>
+                                </div>
+                            </div>
+                            
+                            <div style="padding: 15px; background: rgba(0,0,0,0.15); border-radius: 8px; margin-bottom: 20px; border-left: 4px solid var(--primary);">
+                                <div id="verify-result-points" class="verify-points" style="font-size: 20px; font-weight:800;">+50 PTS</div>
+                                <p id="verify-result-msg" style="font-size: 13px; color: var(--text-secondary); margin-top:4px;"></p>
+                            </div>
+
+                            <div style="border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); text-align:center;">
+                                <img id="verify-result-img" src="" alt="annotated image" style="max-width: 100%; max-height: 250px; display: none;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Uploads list history -->
+                <div class="glass-panel" style="margin-top: 35px; padding: 30px;">
+                    <h3 class="section-title">Upload Verification History</h3>
+                    <div id="verify-history-list" class="verifications-history">
+                        <!-- Loaded via JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: AI ECO ADVISOR (RAG) -->
+            <section id="advisor" class="tab-content">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">AI Sustainability Advisor</h1>
+                        <p class="page-subtitle">Receive personalized carbon saving tips generated via TF-IDF vector search and LLMs</p>
+                    </div>
+                </div>
+
+                <div class="advisor-layout">
+                    <!-- Advisor search sidebar -->
+                    <div class="glass-panel advisor-sidebar">
+                        <h3 class="section-title">Ask My Advisor</h3>
+                        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">
+                            By default, the advisor parses your latest logged footprint values. Or, you can search for recommendations regarding a custom topic.
+                        </p>
+                        
+                        <form id="advisor-search-form">
+                            <div class="form-group">
+                                <label class="form-label" for="advisor-query-input">Topic Query</label>
+                                <input type="text" id="advisor-query-input" class="form-control" placeholder="e.g. how can I save electricity?">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <span>Ask Custom Advice</span>
+                                <i class="fas fa-search btn-icon-adjust"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Custom advisor output report -->
+                    <div class="glass-panel advice-container" id="advisor-report-wrapper">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: LEADERBOARD -->
+            <section id="leaderboard" class="tab-content">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Global Leaderboard</h1>
+                        <p class="page-subtitle">Compete with friends, climb rankings by earning green points, and save the planet!</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel leaderboard-panel">
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Green Eco Warrior</th>
+                                <th style="text-align: right;">Total Reward Points</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-table-body">
+                            <!-- Loaded via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECTION 6: MY BADGES -->
+            <section id="badges" class="tab-content">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Achievements & Badges</h1>
+                        <p class="page-subtitle">Unlock badges by logging activities, verifying photos, and compiling points. Each badge grants +100 PTS!</p>
+                    </div>
+                </div>
+
+                <div id="badges-grid-container" class="badges-grid">
+                    <!-- Loaded via JS -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Include backend API integration files -->
+    <script src="js/api.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

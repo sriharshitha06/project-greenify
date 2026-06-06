@@ -1,0 +1,47 @@
+.header{
+    background-color: blue;
+    color: white;
+    padding: 8px;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header-left{
+    font-weight: bold;
+    font-size: 35px;
+}
+.register-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.reg-button{
+    margin: 10px;
+    height: 30px;
+    width: 250px;
+}
+.register-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.footer{
+    background-color: blue;
+    color: white;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    height: 30px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+input{
+    margin: 10px;
+    height: 30px;
+    width: 250px;
+}

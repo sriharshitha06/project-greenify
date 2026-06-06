@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoSaver</title>
+    <link rel="stylesheet" href="saver.css">
+    <script
+src="https://cdn.jsdelivr.net/npm/chart.js">
+</script>
+	<style>
+		#chart-container {
+			width: 100px;
+			height: 100px;
+			margin: 40px auto;
+		}
+	</style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">Let's calculate the Carbon Footprint</div>
+        <div class="header-info">
+       
+            <a href="profile.html" class="anchor-header">my profile</a>
+    </div>
+    </div>
+  <h1>Carbon Footprint Result</h1>
+  <p id="result"></p>
+  <canvas id="pie-chart" width="400" height="400"></canvas>
+
+    <div class="footer">
+        @2024 Greenify All rights are reserved
+    </div>
+    <script src="saver.js"></script>
+</body>
+</html>

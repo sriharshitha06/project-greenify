@@ -1,0 +1,33 @@
+.footer{
+    background-color:green;
+    color: white;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    height: 30px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+.header{
+    background-color:green;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    height: 100px;
+    align-items: center;
+    padding: 8px;
+    font-size: x-large;
+}
+a{
+    color: white;
+    margin: 10px;
+    text-decoration: none;
+    font-size: 20px;
+}
+#pie-chart {
+  width: 400px !important; 
+  height: 400px !important;
+}

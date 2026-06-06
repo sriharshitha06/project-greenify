@@ -1,0 +1,104 @@
+[
+  {
+    "category": "energy",
+    "title": "Switch to LED lighting",
+    "description": "Replace incandescent and halogen bulbs with LED bulbs. LEDs use 75% less energy and last up to 25 times longer.",
+    "impact": "Reduces electricity carbon footprint by up to 150 kg CO2e per year."
+  },
+  {
+    "category": "energy",
+    "title": "Unplug phantom loads",
+    "description": "Unplug electronics, chargers, and appliances when not in use. Many devices consume power even when turned off but plugged in (standby power).",
+    "impact": "Saves up to 10% on your electricity bill and reduces emissions by 50 kg CO2e annually."
+  },
+  {
+    "category": "energy",
+    "title": "Optimize heating and cooling",
+    "description": "Adjust your thermostat. Set it to 24-26°C in summer and 18-20°C in winter. Clean air conditioning filters monthly to maintain efficiency.",
+    "impact": "Reduces cooling emissions by 15% and saves energy."
+  },
+  {
+    "category": "energy",
+    "title": "Install solar panels",
+    "description": "Transition to solar energy. Solar rooftop panels capture renewable sunlight, lowering your dependence on fossil-fuel powered grids.",
+    "impact": "Reduces electricity emissions to zero, saving up to 1,500 kg CO2e/year."
+  },
+  {
+    "category": "energy",
+    "title": "Optimize LPG usage",
+    "description": "When cooking, cover your pans with lids to trap heat, cook on medium flame, and use a pressure cooker. Ensure burners are clean and flame is blue.",
+    "impact": "Lowers LPG cylinder consumption by 20% (approx. 5 kg CO2e saved per cylinder)."
+  },
+  {
+    "category": "transport",
+    "title": "Carpool to work",
+    "description": "Share rides with colleagues or neighbors who have similar commute routes. Reduces the number of single-occupancy vehicles on the road.",
+    "impact": "Cuts individual driving footprint by 50% (saves approx. 2.0 kg CO2e per shared trip)."
+  },
+  {
+    "category": "transport",
+    "title": "Ride a bicycle for short trips",
+    "description": "For any distance under 5 km, use a bicycle instead of a car or motorcycle. It emits zero carbon and provides cardiovascular exercise.",
+    "impact": "Saves 0.24 kg CO2e per kilometer compared to a standard petrol vehicle."
+  },
+  {
+    "category": "transport",
+    "title": "Use public transit",
+    "description": "Take buses, metro, or commuter trains for your daily commute. Public transit occupies less space and uses less energy per passenger-km.",
+    "impact": "Emits 80% less carbon than driving alone (saves approx. 0.15 kg CO2e per km)."
+  },
+  {
+    "category": "transport",
+    "title": "Maintain your vehicle",
+    "description": "Ensure proper tire inflation, get regular oil changes, and keep air filters clean. Proper maintenance increases fuel efficiency.",
+    "impact": "Improves vehicle mileage by up to 4%, saving 50-80 kg CO2e annually."
+  },
+  {
+    "category": "transport",
+    "title": "Switch to electric vehicles (EV)",
+    "description": "When purchasing a new vehicle, choose an electric vehicle (EV) or a hybrid. EVs produce zero tailpipe emissions and are highly efficient.",
+    "impact": "Reduces transportation footprint by 70% or more, depending on electricity grid carbon intensity."
+  },
+  {
+    "category": "diet",
+    "title": "Transition to plant-based diet",
+    "description": "Adopt a vegan or vegetarian diet, or participate in 'Meatless Mondays'. Meat production, particularly beef and lamb, requires heavy land, water, and emits methane.",
+    "impact": "A vegetarian diet emits 50% less carbon than meat-heavy, while vegan emits 70% less."
+  },
+  {
+    "category": "diet",
+    "title": "Reduce food waste",
+    "description": "Plan meals, store food properly, and eat leftovers. Food decaying in landfills releases methane, a highly potent greenhouse gas.",
+    "impact": "Avoids greenhouse emissions of approx. 2.5 kg CO2e for every kilogram of food saved from landfills."
+  },
+  {
+    "category": "diet",
+    "title": "Choose local and seasonal food",
+    "description": "Buy food grown locally and in-season to minimize 'food miles' (the distance food travels from farm to plate) and energy-intensive greenhouse cultivation.",
+    "impact": "Reduces food transport emissions by up to 10%."
+  },
+  {
+    "category": "waste",
+    "title": "Recycle paper, plastic, and metal",
+    "description": "Separate recyclable materials from trash. Recycling materials requires significantly less energy than extracting raw virgin resources.",
+    "impact": "Saves raw resources and reduces landfill footprint by up to 200 kg CO2e annually."
+  },
+  {
+    "category": "waste",
+    "title": "Start backyard or indoor composting",
+    "description": "Compost your organic kitchen waste (fruit peels, vegetable scraps, tea leaves). Creates nutrient-rich soil fertilizer and prevents landfill methane.",
+    "impact": "Reduces waste carbon output to zero and saves up to 80 kg CO2e/year."
+  },
+  {
+    "category": "waste",
+    "title": "Avoid single-use plastics",
+    "description": "Use reusable grocery bags, water bottles, and steel/glass food containers. Avoid plastic packaging, straws, and disposable cups.",
+    "impact": "Reduces plastic demand, lowering chemical processing emissions and plastic pollution."
+  },
+  {
+    "category": "waste",
+    "title": "Buy items with minimal packaging",
+    "description": "Buy products in bulk, choose refills, and choose items packaged in recyclable paper or cardboard rather than heavy plastic containers.",
+    "impact": "Decreases packaging carbon footprint by 15-20%."
+  }
+]

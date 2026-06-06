@@ -1,0 +1,57 @@
+.circular-image {
+  border-radius: 50%;
+  width: 100px; /* optional */
+  height: 100px; /* optional */
+}
+
+.img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.header{
+  background-color:green;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  height: 100px;
+  align-items: center;
+  padding: 8px;
+}
+.tracker-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.tra-button{
+  margin: 10px;
+  height: 30px;
+  width: 250px;
+  color: white ;
+  background-color: green;
+}
+.tracker-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.footer{
+  background-color: green;
+  color: white;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  height: 30px;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+input{
+  margin: 10px;
+  height: 30px;
+  width: 250px;
+}

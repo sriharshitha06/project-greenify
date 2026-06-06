@@ -1,0 +1,42 @@
+.header{
+    background-color: green;
+    color: white;
+    padding: 8px;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header-left{
+    font-weight: bold;
+    font-size: 35px;
+}
+.login-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+input{
+    margin: 10px;
+    height: 30px;
+    width: 250px;
+}
+.login-button{
+    margin: 10px;
+    height: 30px;
+    width: 250px;
+}
+.footer{
+    background-color: green;
+    color: white;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    height: 30px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
